@@ -41,7 +41,7 @@ namespace Infrastructure.Basics
             return @string;
         }
 
-        public static void GuardAgainstNullInList<T>(IEnumerable<T> list, [NotNull] string name) where T : class
+        public static void GuardAgainstNullInList<T>(IEnumerable<T> list) where T : class
         {
             var enumerable = list as T[] ?? list.ToArray();
             GuardAgainstNull(enumerable, nameof(list));

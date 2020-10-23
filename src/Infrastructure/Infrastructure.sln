@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Basics", "In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Basics", "Tests.Basics\Tests.Basics.csproj", "{A54EBDDA-445E-4695-A83F-27F19C9B1BF3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Exceptions", "Infrastructure.Exceptions\Infrastructure.Exceptions.csproj", "{835366F1-6D39-4DD2-955F-BC3245CFF04A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A54EBDDA-445E-4695-A83F-27F19C9B1BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A54EBDDA-445E-4695-A83F-27F19C9B1BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A54EBDDA-445E-4695-A83F-27F19C9B1BF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{835366F1-6D39-4DD2-955F-BC3245CFF04A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{835366F1-6D39-4DD2-955F-BC3245CFF04A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{835366F1-6D39-4DD2-955F-BC3245CFF04A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{835366F1-6D39-4DD2-955F-BC3245CFF04A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
