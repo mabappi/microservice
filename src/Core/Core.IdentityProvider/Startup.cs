@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,10 +35,9 @@ namespace Core.IdentityProvider
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app
                 .UseForwardedHeaders();
-                .UsePa
-            
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

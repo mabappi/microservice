@@ -3,16 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Basics", "Infrastructure.Basics\Infrastructure.Basics.csproj", "{675FAE8F-D696-475B-8D58-5730380DBCD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Basics", "Infrastructure.Basics\Infrastructure.Basics.csproj", "{675FAE8F-D696-475B-8D58-5730380DBCD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Basics", "Tests.Basics\Tests.Basics.csproj", "{A54EBDDA-445E-4695-A83F-27F19C9B1BF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Basics", "Tests.Basics\Tests.Basics.csproj", "{A54EBDDA-445E-4695-A83F-27F19C9B1BF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Exceptions", "Infrastructure.Exceptions\Infrastructure.Exceptions.csproj", "{835366F1-6D39-4DD2-955F-BC3245CFF04A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Exceptions", "Infrastructure.Exceptions\Infrastructure.Exceptions.csproj", "{835366F1-6D39-4DD2-955F-BC3245CFF04A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9825404C-ED1E-42B0-A675-58CA677808B6}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.WebApp", "Infrastructure.WebApp\Infrastructure.WebApp.csproj", "{BA9B7589-7487-4578-AC6A-AE0761007FF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +31,10 @@ Global
 		{835366F1-6D39-4DD2-955F-BC3245CFF04A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{835366F1-6D39-4DD2-955F-BC3245CFF04A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{835366F1-6D39-4DD2-955F-BC3245CFF04A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA9B7589-7487-4578-AC6A-AE0761007FF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA9B7589-7487-4578-AC6A-AE0761007FF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA9B7589-7487-4578-AC6A-AE0761007FF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA9B7589-7487-4578-AC6A-AE0761007FF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
