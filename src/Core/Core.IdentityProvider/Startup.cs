@@ -1,8 +1,10 @@
 using System;
 using System.IO;
+using Core.IdentityProvider.Application.Data;
+using Core.IdentityProvider.Extensions;
+using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Core.IdentityProvider
 {
@@ -42,7 +45,9 @@ namespace Core.IdentityProvider
                 .Configure<CookieAuthenticationOptions>(SetCookieOptions)
                 .ConfigureApplicationCookie(SetCookieOptions);
             services.AddCors(x => x.AddPolicy(CorsPolicyName, builder => builder.SetIsOriginAllowed(host => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
-            services.AddIdentityServer(Configuration);
+            services.ConfigureIdentityServer(Configuration);
+            services.AddMvc(option => option.EnableEndpointRouting = false);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,19 +59,18 @@ namespace Core.IdentityProvider
             }
 
             app
+                .MigrateDatabase<IdentityProviderDbContext>()
+                .MigrateDatabase<ConfigurationDbContext>()
+                .MigrateDatabase<PersistedGrantDbContext>();
+
+            app
                 .UseForwardedHeaders()
                 .UseCors(CorsPolicyName)
+                .UseRouting()
                 .UseIdentityServer()
                 .UseAuthorization()
-                .UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
-            });
+                .UseStaticFiles()
+                .UseMvcWithDefaultRoute();
         }
 
         private void SetCookieOptions(CookieAuthenticationOptions options)

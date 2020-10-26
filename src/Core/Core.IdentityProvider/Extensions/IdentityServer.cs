@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Core.IdentityProvider.Application.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -14,21 +15,21 @@ namespace Core.IdentityProvider.Extensions
     {
         private const string DefaultConnectionString = "DefaultConnection";
 
-        public static IServiceCollection AddIdentityServer(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection ConfigureIdentityServer(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString(DefaultConnectionString);
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-            services.AddDbContext<IdentityDbContext>(options =>
+            services.AddDbContext<IdentityProviderDbContext>(options =>
                 options.UseSqlServer(connectionString,
                     sqlServerOptionsAction: sqlOptions => {
-                        sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                        sqlOptions.MigrationsAssembly(migrationsAssembly);
                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30),
                             errorNumbersToAdd: null);
                     }));
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityDbContext>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityProviderDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -37,7 +38,7 @@ namespace Core.IdentityProvider.Extensions
                 {
                     options.ClientId = configuration["ClientId"];
                     options.ClientSecret = configuration["ClientSecret"];
-                    options.SignInScheme = "IdentityAsAService";
+                    options.SignInScheme = "IdentityProvider";
                     options.RemoteAuthenticationTimeout = TimeSpan.FromSeconds(30);
                     options.Authority = "https://login.microsoftonline.com/common/v2.0/";
                     options.ResponseType = "code";
@@ -55,7 +56,7 @@ namespace Core.IdentityProvider.Extensions
                     x.Authentication.CookieLifetime = TimeSpan.FromMinutes(15);
                 })
                 .AddDeveloperSigningCredential()
-                .AddAspNetIdentity<IdentityUser>()
+                .AddAspNetIdentity<ApplicationUser>()
                 .AddConfigurationStore(options => {
                     options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
                         sqlServerOptionsAction: sqlOptions => {
