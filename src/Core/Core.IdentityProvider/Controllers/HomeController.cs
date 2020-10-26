@@ -1,7 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-using IdentityServer4.Extensions;
-using IdentityServer4.Services;
+﻿using IdentityServer4.Extensions;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,48 +11,39 @@ namespace Core.IdentityProvider.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IIdentityServerInteractionService _interaction;
-        private readonly IAuthenticationSchemeProvider _schemeProvider;
 
-        public HomeController([NotNull]ILogger<HomeController> logger, IIdentityServerInteractionService interaction, IAuthenticationSchemeProvider schemeProvider)
+        public HomeController([NotNull]ILogger<HomeController> logger)
         {
             _logger = logger;
-            _interaction = interaction;
-            _schemeProvider = schemeProvider;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index([CanBeNull]string returnUrl)
         {
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                returnUrl = "/";
+            }
+
             if (User.IsAuthenticated())
             {
                 return new OkObjectResult(User.Identity.Name);
             }
 
-            var context = await _interaction.GetAuthorizationContextAsync("/");
-            
-            if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
-            {
-                var props = new AuthenticationProperties {
-                    RedirectUri = Url.Action(nameof(Callback)),
-                    Items =
-                    {
-                        { "returnUrl", "/" },
-                        { "scheme", context.IdP },
-                    }
-                };
+            var props = new AuthenticationProperties {
+                RedirectUri = Url.Action(nameof(Callback)),
+                Items = {
+                    {"returnUrl", returnUrl},
+                    {"scheme", Constants.AuthenticationSchemeName},
+                }
+            };
 
-                return Challenge(props, context.IdP);
-
-            }
-
-            return BadRequest();
+            return Challenge(props, Constants.AuthenticationSchemeName);
         }
 
         [HttpGet]
         public IActionResult Callback()
         {
-            return Ok("Called");
+            return Ok($"Called: {User.Identity.Name}");
         }
-
     }
 }

@@ -61,8 +61,8 @@ namespace Core.IdentityProvider
             app
                 .MigrateDatabase<IdentityProviderDbContext>()
                 .MigrateDatabase<ConfigurationDbContext>()
-                .MigrateDatabase<PersistedGrantDbContext>();
-
+                .MigrateDatabase<PersistedGrantDbContext>()
+                .SeedData(Configuration);
             app
                 .UseForwardedHeaders()
                 .UseCors(CorsPolicyName)

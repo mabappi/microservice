@@ -34,11 +34,11 @@ namespace Core.IdentityProvider.Extensions
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddOpenIdConnect("Azure AD / Microsoft", "Azure AD / Microsoft", options => // Microsoft common
+                .AddOpenIdConnect(Constants.AuthenticationSchemeName, Constants.AuthenticationSchemeName, options => // Microsoft common
                 {
                     options.ClientId = configuration["ClientId"];
                     options.ClientSecret = configuration["ClientSecret"];
-                    options.SignInScheme = "IdentityProvider";
+                    options.SignInScheme = "Identity.External"; 
                     options.RemoteAuthenticationTimeout = TimeSpan.FromSeconds(30);
                     options.Authority = "https://login.microsoftonline.com/common/v2.0/";
                     options.ResponseType = "code";
