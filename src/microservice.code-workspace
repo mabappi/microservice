@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"omnisharp.enableEditorConfigSupport": true,
+		"omnisharp.enableImportCompletion": true,
+		"omnisharp.enableMsBuildLoadProjectsOnDemand": true,
+		"omnisharp.enableRoslynAnalyzers": true
+	}
+}
