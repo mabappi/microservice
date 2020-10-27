@@ -73,12 +73,6 @@ namespace Core.IdentityProvider.Controllers
                 return RedirectToAction("AuthenticationError", "Home", new { message = $"External authentication error: {result?.Failure?.Message}" });
             }
 
-            if (_logger.IsEnabled(LogLevel.Debug))
-            {
-                var externalClaims = result.Principal.Claims.Select(c => $"{c.Type}: {c.Value}");
-                _logger.LogDebug("External claims: {@claims}", externalClaims);
-            }
-
             // lookup our user and external provider info
             var (user, provider, providerUserId, claims) = await FindUserFromExternalProviderAsync(result);
             if (user == null)
@@ -190,7 +184,9 @@ namespace Core.IdentityProvider.Controllers
             }
 
             var user = new ApplicationUser {
-                UserName = Guid.NewGuid().ToString(),
+                UserName = email,
+                Email = email,
+                EmailConfirmed = true
             };
             var identityResult = await _userManager.CreateAsync(user);
             if (!identityResult.Succeeded) throw new Exception(identityResult.Errors.First().Description);
