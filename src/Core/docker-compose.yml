@@ -1,6 +1,18 @@
-version: '3.4'
+version: '3.9'
 
 services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - 8000:80
+      - 44300:443
+    volumes:
+      - ./nginx/config:/etc/nginx/conf.d
+#      - ./nginx/certificates:/etc/ssl/private
+    networks:
+       - local
+
   seq:
     image: datalust/seq:latest
     container_name: seq
@@ -8,7 +20,9 @@ services:
       - ACCEPT_EULA=Y
     ports:
     - "8080:80"
-    - "5341:53410"
+    - "5341"
+    networks: 
+      - local
 
   core.identityprovider:
     image: ${DOCKER_REGISTRY-}coreidentityprovider
@@ -24,6 +38,8 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    networks: 
+      - local
 
   core.frontend:
     image: ${DOCKER_REGISTRY-}corefrontendcontainer
@@ -39,4 +55,9 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    networks: 
+      - local
+  
+networks:
+  local:
 
