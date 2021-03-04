@@ -113,7 +113,6 @@ namespace Core.IdentityProvider.Controllers
             FindUserFromExternalProviderAsync(AuthenticateResult result)
         {
             var externalUser = result.Principal;
-            ApplicationUser user = null;
             var userIdClaim = externalUser.FindFirst(ClaimTypes.Email) ??
                               externalUser.FindFirst("preferred_username");
             
@@ -123,7 +122,7 @@ namespace Core.IdentityProvider.Controllers
             var providerUserId = userIdClaim.Value;
 
             // find external user
-            user = await _userManager.FindByLoginAsync(provider, providerUserId);
+            var user = await _userManager.FindByLoginAsync(provider, providerUserId);
 
             return (user, provider, providerUserId, claims);
         }

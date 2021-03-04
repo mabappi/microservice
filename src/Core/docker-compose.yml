@@ -1,0 +1,42 @@
+version: '3.4'
+
+services:
+  seq:
+    image: datalust/seq:latest
+    container_name: seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+    - "8080:80"
+    - "5341:53410"
+
+  core.identityprovider:
+    image: ${DOCKER_REGISTRY-}coreidentityprovider
+    container_name: identityprovider
+    build:
+      context: .
+      dockerfile: Core.IdentityProvider/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  core.frontend:
+    image: ${DOCKER_REGISTRY-}corefrontendcontainer
+    container_name: frontendcontainer
+    build:
+      context: .
+      dockerfile: Core.FrontEnd.Container/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "8081:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
