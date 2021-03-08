@@ -6,9 +6,10 @@ services:
     container_name: nginx
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx/config:/etc/nginx/conf.d
-#      - ./nginx/certificates:/etc/ssl/private
+      - ./nginx/certificates:/etc/nginx/cert:ro
     networks:
        - local
 

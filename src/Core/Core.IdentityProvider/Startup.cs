@@ -63,9 +63,13 @@ namespace Core.IdentityProvider
                 .MigrateDatabase<ConfigurationDbContext>()
                 .MigrateDatabase<PersistedGrantDbContext>()
                 .SeedData(Configuration);
+            app.Use((context, next) => {
+                context.Request.Scheme = "https";
+                return next();
+            });
             app
                 .UseForwardedHeaders()
-                .UsePathBase(new PathString("/login"))
+                .UsePathBase(new PathString("/identity"))
                 .UseCors(CorsPolicyName)
                 .UseRouting()
                 .UseIdentityServer()

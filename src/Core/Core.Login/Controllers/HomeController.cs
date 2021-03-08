@@ -18,9 +18,9 @@ namespace Core.Login.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string returnUrl)
         {
-            return View();
+            return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
         public IActionResult Privacy()

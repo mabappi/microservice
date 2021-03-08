@@ -16,7 +16,7 @@ function toggleSignUp(e) {
 
 function identityservice(e) {
     e.preventDefault();
-    location.href = "/login";
+    location.href = "https://localhost/identity?returnUrl=" + returnUrl;
 }
 
 $(() => {

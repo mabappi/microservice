@@ -35,11 +35,21 @@ namespace Core.IdentityProvider.Controllers
             _logger = logger;
         }
 
+        public IActionResult Validate()
+        {
+            if (User.IsAuthenticated())
+            {
+                return Ok();
+            }
+
+            return Unauthorized();
+        }
+
         public IActionResult Index([CanBeNull]string returnUrl)
         {
             if (string.IsNullOrEmpty(returnUrl))
             {
-                returnUrl = "/cpm";
+                returnUrl = "/";
             }
 
             if (User.IsAuthenticated())
@@ -48,7 +58,7 @@ namespace Core.IdentityProvider.Controllers
             }
 
             var props = new AuthenticationProperties {
-                //RedirectUri = "http://localhost:8080/login/home/callback",
+                //RedirectUri = "https://localhost/identity/home/callback",
                 RedirectUri = Url.Action(nameof(Callback)),
                 Items = {
                     {"returnUrl", returnUrl},
