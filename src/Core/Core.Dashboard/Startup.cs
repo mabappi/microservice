@@ -48,17 +48,21 @@ namespace Core.Dashboard
             }
             app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto });
             app.UsePathBase(new PathString("/cpm"));
-            app.UseCors(CorsPolicyName);
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-            app.Use(async (context, next) =>
-            {
-                context.Request.PathBase = new PathString("/cpm");
-                context.Request.Scheme = "https";
-                // Do work that doesn't write to the Response.
+
+            app.Use(async (context, next) => {
+                //if (context.Request.Headers.ContainsKey("X-Forwarded-For"))
+                {
+                    context.Request.PathBase = new PathString("/cpm");
+                    context.Request.Scheme = "https";
+                }
                 await next.Invoke();
                 // Do logging or other work that doesn't write to the Response.
             });
+
+            
+            app.UseCors(CorsPolicyName);
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
