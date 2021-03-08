@@ -33,7 +33,7 @@ namespace Core.IdentityProvider
         {
             services
                 .Configure<ForwardedHeadersOptions>(options => {
-                    options.ForwardedHeaders = ForwardedHeaders.All;
+                    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
                 });
             services.AddDataProtection()
                 .PersistKeysToFileSystem(new DirectoryInfo(@"/dataprotection"))
@@ -65,6 +65,7 @@ namespace Core.IdentityProvider
                 .SeedData(Configuration);
             app
                 .UseForwardedHeaders()
+                .UsePathBase(new PathString("/login"))
                 .UseCors(CorsPolicyName)
                 .UseRouting()
                 .UseIdentityServer()

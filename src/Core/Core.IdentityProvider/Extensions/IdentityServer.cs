@@ -49,7 +49,6 @@ namespace Core.IdentityProvider.Extensions
                         NameClaimType = "email",
                     };
                     options.CallbackPath = "/signin-microsoft";
-                    options.Prompt = "login"; // login, consent
                 });
 
             services.AddIdentityServer(x => {

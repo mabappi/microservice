@@ -39,7 +39,7 @@ namespace Core.IdentityProvider.Controllers
         {
             if (string.IsNullOrEmpty(returnUrl))
             {
-                returnUrl = "/";
+                returnUrl = "/cpm";
             }
 
             if (User.IsAuthenticated())
@@ -48,6 +48,7 @@ namespace Core.IdentityProvider.Controllers
             }
 
             var props = new AuthenticationProperties {
+                //RedirectUri = "http://localhost:8080/login/home/callback",
                 RedirectUri = Url.Action(nameof(Callback)),
                 Items = {
                     {"returnUrl", returnUrl},
