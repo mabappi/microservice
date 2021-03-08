@@ -2,7 +2,7 @@
   "name": "core.dashboard",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/cpm/ui/",
+  "homepage": "/cpm/",
   "dependencies": {
     "bootstrap": "^4.1.3",
     "jquery": "^3.5.1",

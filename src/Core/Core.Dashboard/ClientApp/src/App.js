@@ -16,6 +16,14 @@ export default class App extends Component {
         <Route exact path='/' component={Home} />
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />
+        <Route path='/logs' component={() => {
+            window.location.href = 'https://localhost/seq';
+            return null;
+        }} />
+        <Route path='/cwize' component={() => {
+            window.location.href = 'https://localhost/';
+            return null;
+        }} />
       </Layout>
     );
   }

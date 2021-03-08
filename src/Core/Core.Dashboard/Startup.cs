@@ -46,7 +46,7 @@ namespace Core.Dashboard
             {
                 app.UseExceptionHandler("/Error");
             }
-            //app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto });
+            app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto });
             app.UsePathBase(new PathString("/cpm"));
             app.UseCors(CorsPolicyName);
             app.UseStaticFiles();
@@ -54,6 +54,7 @@ namespace Core.Dashboard
             app.Use(async (context, next) =>
             {
                 context.Request.PathBase = new PathString("/cpm");
+                context.Request.Scheme = "https";
                 // Do work that doesn't write to the Response.
                 await next.Invoke();
                 // Do logging or other work that doesn't write to the Response.
@@ -83,11 +84,6 @@ namespace Core.Dashboard
                     //spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
-        }
-
-        private PathString PathString(string v)
-        {
-            throw new NotImplementedException();
         }
     }
 }
