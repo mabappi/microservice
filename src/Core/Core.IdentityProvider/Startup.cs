@@ -47,6 +47,7 @@ namespace Core.IdentityProvider
             services.AddCors(x => x.AddPolicy(CorsPolicyName, builder => builder.SetIsOriginAllowed(host => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
             services.ConfigureIdentityServer(Configuration);
             services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddHealthChecks();
 
         }
 
@@ -73,9 +74,14 @@ namespace Core.IdentityProvider
                 .UseCors(CorsPolicyName)
                 .UseRouting()
                 .UseIdentityServer()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapHealthChecks("/health");
+                })
                 .UseAuthorization()
                 .UseStaticFiles()
                 .UseMvcWithDefaultRoute();
+            
         }
 
         private void SetCookieOptions(CookieAuthenticationOptions options)
